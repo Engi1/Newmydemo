@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mydemo.domain.user.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="com.example.mydemo.domain.user.model.User">
+        <id     column="user_id"    property="userId"/>
+        <result column="email"      property="email"/>
+        <result column="password"   property="password"/>
+        <result column="name"       property="name"/>
+        <result column="phone"      property="phone"/>
+        <result column="role"       property="role"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <!-- 1) 전체 조회 -->
+    <select id="findAll" resultMap="userResultMap">
+        SELECT
+            user_id,
+            email,
+            password,
+            name,
+            phone,
+            role,
+            created_at
+        FROM users
+    </select>
+
+    <!-- 2) PK로 한 명 조회 -->
+    <select id="findById" resultMap="userResultMap">
+        SELECT
+            user_id,
+            email,
+            password,
+            name,
+            phone,
+            role,
+            created_at
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 3) 회원 생성 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO users (
+            email,
+            password,
+            name,
+            phone,
+            role,
+            created_at
+        ) VALUES (
+            #{email},
+            #{password},
+            #{name},
+            #{phone},
+            #{role},
+            NOW()
+        )
+    </insert>
+
+</mapper>
